@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form class="bg-light p-5 form-signin col-4 shadow rounded text-center" method="POST">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input name="email" type="email" id="inputEmail" class="form-control mb-3" placeholder="Email address" required=""
+        autofocus="">
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input name="username" type="username" id="inputUsername" class="form-control mb-3" placeholder="Username"
+        required="">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Sign Up</button>
+</form>
+
+{% endblock %}

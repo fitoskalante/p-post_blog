@@ -1,0 +1,10 @@
+<form method="POST" class="p-3 rounded-lg bg-warning text-white text-weight-bold shadow mt-5">
+    <h5>Enter your post here!</h5>
+    <textarea name='title' class="form-control mb-2" id="post-title" rows="1"
+        placeholder="Enter the title..."></textarea>
+    <textarea name='body' class="form-control" id="post-body" rows="3"
+        placeholder="Write about what you care {{current_user.username}}..."></textarea>
+    <div class="container d-flex justify-content-center my-2">
+        <button class="btn btn-small btn-success" type="submit">Share</button>
+    </div>
+</form>

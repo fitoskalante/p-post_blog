@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block content_in %}
+<div class="container  d-flex flex-column col-6 ">
+    {% include 'mypost.html' %}
+    {% with posts = posts %}
+    {% include 'board.html' %}
+    {% endwith %}
+</div>
+{% endblock %}
