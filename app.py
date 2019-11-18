@@ -26,6 +26,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.String(30), nullable=False)
     posts = db.relationship('Post', backref='user', lazy=True)
+    # a list of post that this user likes
+    like_post = db.relationship(
+        'Post', secondary='likes', backref='my_likes', lazy=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -46,6 +49,12 @@ class Post(db.Model):
     view_count = db.Column(db.Integer, default=0)
 
 
+likes = db.Table('likes',
+                 db.Column('user_id', db.Integer, db.ForeignKey(
+                     'users.id'), primary_key=True),
+                 db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True))
+
+
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +72,25 @@ db.create_all()
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(id)
+
+
+@app.route('/like/post/<int:id>', methods=['post'])
+@login_required
+def like_post(id):
+    post = Post.query.get(id)
+    print(current_user.like_post)
+    if not post:
+        flash('go away')
+        return redirect(url_for('root'))
+    if not current_user.like_post:
+        current_user.like_post.append(post)
+        db.session.commit()
+        return redirect(url_for('root'))
+    if current_user.like_post:
+        current_user.like_post.remove(post)
+        db.session.commit()
+        return redirect(url_for('root'))
+    return redirect(url_for('root'))
 
 
 @app.route('/', methods=['GET', 'POST'])
