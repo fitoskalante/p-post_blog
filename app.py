@@ -3,11 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, current_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Blog secret key'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'LOCAL_DB') or 'sqlite:///database.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
