@@ -12,8 +12,18 @@
             <button class="btn btn-danger btn-small mr-2" type="submit">Delete</button>
         </form>
         <form method="POST" action="">
-            <button class="btn btn-primary btn-small ml-2" type="submit">Update</button>
+            <button class="btn btn-success btn-small ml-2" type="submit">Update</button>
         </form>
+        {% if current_user.like_post %}
+        <form method="POST" action="{{url_for('like_post_on_board', id=post.id)}}">
+            <button class="btn btn-primary btn-small ml-2" type="submit">Unlike</button>
+        </form>
+        {% else %}
+        <form method="POST" action="{{url_for('like_post_on_board', id=post.id)}}">
+            <button class="btn btn-primary btn-small ml-2" type="submit">Like</button>
+        </form>
+        {% endif %}
+        <p>likes {{post.my_likes | length }}</p>
     </div>
 </div>
 {% endfor %}

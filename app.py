@@ -74,23 +74,46 @@ def load_user(id):
     return User.query.get(id)
 
 
-@app.route('/like/post/<int:id>', methods=['post'])
+@app.route('/like/board/<int:id>', methods=['post'])
 @login_required
-def like_post(id):
+def like_post_on_board(id):
     post = Post.query.get(id)
-    print(current_user.like_post)
+    print(request.url)
     if not post:
         flash('go away')
         return redirect(url_for('root'))
     if not current_user.like_post:
         current_user.like_post.append(post)
         db.session.commit()
-        return redirect(url_for('root'))
+        if request.url == "http://localhost:5000/like/board/<id>":
+            return redirect(url_for('root'))
+        return redirect(url_for('render_post', id=id))
     if current_user.like_post:
         current_user.like_post.remove(post)
         db.session.commit()
-        return redirect(url_for('root'))
+        if request.url == "http://localhost:5000/like/board/<id>":
+            return redirect(url_for('root'))
+        return redirect(url_for('render_post', id=id))
     return redirect(url_for('root'))
+
+
+# @app.route('/like/post/<int:id>', methods=['post'])
+# @login_required
+# def like_post(id):
+#     post = Post.query.get(id)
+#     print(current_user.like_post)
+#     if not post:
+#         flash('go away')
+#         return redirect(url_for('render_post', id=id))
+#     if not current_user.like_post:
+#         current_user.like_post.append(post)
+#         db.session.commit()
+#         return redirect(url_for('render_post', id=id))
+#     if current_user.like_post:
+#         current_user.like_post.remove(post)
+#         db.session.commit()
+#         return redirect(url_for('render_post', id=id))
+#     return redirect(url_for('render_post', id=id))
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -118,8 +141,6 @@ def leave_comment(id):
                               post_id=id)
         db.session.add(new_comment)
         db.session.commit()
-        print('ok', new_comment)
-
         return redirect(url_for('render_post', id=id, comments=comments))
     return redirect(url_for('render_post', id=id, comments=comments))
 

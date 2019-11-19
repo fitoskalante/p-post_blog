@@ -20,11 +20,11 @@
             <p>views {{current_post.view_count}}</p>
             <p>likes {{current_post.my_likes | length }}</p>
             {% if current_user.like_post %}
-            <form method="POST" action={{url_for('like_post', id=current_post.id)}}>
+            <form method="POST" action={{url_for('like_post_on_board', id=current_post.id)}}>
                 <button type='submit'>Unlike</button>
             </form>
             {% else %}
-            <form method="POST" action={{url_for('like_post', id=current_post.id)}}>
+            <form method="POST" action={{url_for('like_post_on_board', id=current_post.id)}}>
                 <button type='submit'>Like</button>
             </form>
             {% endif %}
