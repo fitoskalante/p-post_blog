@@ -22,7 +22,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'signin'
 
 app.secret_key = 'My secret key'
-
+##
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
